@@ -6,7 +6,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "#051526",
-    background: "#06192C",
+    background: "#fff",
     card: "#051526",
     primaryText: "white",
     secondaryText: "black",
@@ -15,7 +15,7 @@ const theme = {
     statusbar: "#051526",
     inputBackground: "gray",
     buttonBackground: "#034285",
-    ChatListItemCard: "#D3D3D3",
+    ChatListItemCard: "white",
   },
   fontSize: {
     large: 22,

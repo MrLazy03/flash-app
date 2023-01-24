@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-flashapp-staging-122548-authRole",
+      "UnauthRoleArn": "arn:aws:iam::787047314986:role/amplify-flashapp-staging-122548-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::787047314986:role/amplify-flashapp-staging-122548-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-flashapp-staging-122548-deployment",
+      "UnauthRoleName": "amplify-flashapp-staging-122548-unauthRole",
+      "StackName": "amplify-flashapp-staging-122548",
+      "StackId": "arn:aws:cloudformation:ap-south-1:787047314986:stack/amplify-flashapp-staging-122548/e8891920-9598-11ed-a82b-06663021e6a2",
+      "AmplifyAppId": "d3mftgmw1kd5l9"
+    },
+    "categories": {
+      "auth": {
+        "FlashApp": {}
+      }
+    }
+  }
+}

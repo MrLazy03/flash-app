@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ChatScreen from "../../screens/ChatScreen";
 import Profile from "../../screens/Profile";
+import ContactsScreen from "../../screens/ContactsScreen";
 import TabStack from "../TabStack";
 import { useTheme } from "styled-components/native";
 
@@ -40,6 +41,15 @@ const HomeStack = () => {
         component={Profile}
         options={{
           title: "Profile",
+          headerBackVisible: true,
+          statusBarHidden: false,
+        }}
+      />
+      <Stack.Screen
+        name="Contacts"
+        component={ContactsScreen}
+        options={{
+          title: "Contacts",
           headerBackVisible: true,
           statusBarHidden: false,
         }}

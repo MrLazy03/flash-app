@@ -1,17 +1,38 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import React, { useState } from "react";
+import { API, Auth, graphqlOperation } from "aws-amplify";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { createMessage, updateChatRoom } from "../../graphql/mutations";
 
 const InputBox = (props) => {
+  const { chatRoom } = props;
   const [newMessage, setNewMessage] = useState("");
 
   const showActions = () => {};
 
-  const handleSendMessage = () => {
-    if (newMessage) {
-      console.warn("message sent");
-      //send message
-    }
+  const handleSendMessage = async () => {
+    if (!newMessage) return null;
+    const authUser = await Auth.currentAuthenticatedUser();
+
+    const message = {
+      chatroomID: chatRoom?.id,
+      text: newMessage,
+      userID: authUser?.attributes?.sub,
+    };
+
+    const newMessageData = await API.graphql(
+      graphqlOperation(createMessage, { input: message })
+    );
+
+    await API.graphql(
+      graphqlOperation(updateChatRoom, {
+        input: {
+          _version: chatRoom._version,
+          chatRoomLastMessageId: newMessageData.data.createMessage.id,
+          id: chatRoom.id,
+        },
+      })
+    );
 
     setNewMessage("");
   };
@@ -46,7 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: "whitesmoke",
     borderRadius: 15,
     padding: 5,
-    paddingVertical:8,
+    paddingVertical: 8,
     paddingHorizontal: 8,
   },
   input: {
