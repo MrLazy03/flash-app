@@ -29,18 +29,24 @@ const Home = (props) => {
       const responseChatRooms = await API.graphql(
         graphqlOperation(listUserChatRooms, { id: authUser?.attributes?.sub })
       );
-      setChatRooms(responseChatRooms?.data?.getUser?.ChatRooms?.items);
+      const rooms = responseChatRooms?.data?.getUser?.ChatRooms?.items || [];
+      const sortedRooms = rooms.sort(
+        (room1, room2) =>
+          new Date(room2.chatRoom.updatedAt) -
+          new Date(room1.chatRoom.updatedAt)
+      );
+      setChatRooms(sortedRooms);
     };
 
     fetchChatRooms();
-  },[]);
+  }, []);
 
   const openContactList = () => {
     navigation.navigate("Contacts");
   };
 
   const renderItem = ({ item }) => {
-    return <ChatListItem chatRoom={item?.chatRoom} />;
+    return <ChatListItem chat={item?.chatRoom} />;
   };
   return <FlatList data={chatRooms} renderItem={renderItem} />;
 };

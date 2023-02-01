@@ -23,6 +23,7 @@
     "aws-amplify-react-native": "^7.0.2",
     "dayjs": "^1.11.7",
     "expo": "~47.0.8",
+    "expo-image-picker": "~14.0.2",
     "expo-linear-gradient": "~12.0.1",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",

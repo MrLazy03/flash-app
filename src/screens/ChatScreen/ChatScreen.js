@@ -7,18 +7,21 @@ import backgroundImage from "../../../assets/BG.png";
 import messages from "../../DummyData/message.json";
 import { Container } from "../../styledComponents/Container";
 import { useNavigation } from "@react-navigation/native";
-import { getChatRoom } from "../../graphql/queries";
+import { getChatRoom, listMessagesByChatRoom } from "../../graphql/queries";
+import { onCreateMessage, onUpdateChatRoom } from "../../graphql/subscriptions";
 
 const ChatScreen = (props) => {
   const { navigation, route } = props;
   const { chatRoomId, userName } = route?.params;
 
   const [chatRoom, setChatRoom] = useState();
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     navigation.setOptions({ title: userName });
   }, [userName]);
 
+  // fetch chat rooms
   useEffect(() => {
     const fetchChatRoomMessages = async () => {
       const response = await API.graphql(
@@ -27,7 +30,52 @@ const ChatScreen = (props) => {
       setChatRoom(response?.getChatRoom);
     };
     fetchChatRoomMessages();
-  }, []);
+
+    const subscription = API.graphql(
+      graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chatRoomId } } })
+    ).subscribe({
+      next: ({ value }) => {
+        setChatRoom((exitingCR) => ({
+          ...(exitingCR || {}),
+          ...value.data.onUpdateChatRoom,
+        } ));
+      },
+      error: (err) => console.log(err),
+    });
+
+    return () => subscription.unsubscribe();
+  }, [chatRoomId]);
+
+  // fetch messages
+  useEffect(() => {
+    API.graphql(
+      graphqlOperation(listMessagesByChatRoom, {
+        chatroomID: chatRoomId,
+        sortDirection: "DESC",
+      })
+    ).then((result) => {
+      setMessages(result?.data?.listMessagesByChatRoom?.items);
+    });
+    // subscribe to new messages
+    const subscription = API.graphql(
+      graphqlOperation(onCreateMessage, {
+        filter: { chatroomID: { eq: chatRoomId } },
+      })
+    ).subscribe({
+      next: ({ value }) => {
+        console.log("new", value);
+        setMessages((prevMessages) => [
+          value.data.onCreateMessage,
+          ...prevMessages,
+        ]);
+      },
+      error: (e) => {
+        console.log(e);
+      },
+    });
+
+    return () => subscription.unsubscribe();
+  }, [chatRoomId]);
 
   const renderActions = () => {
     return <InputBox chatRoom={chatRoom} />;
@@ -39,7 +87,7 @@ const ChatScreen = (props) => {
   const renderChats = () => {
     return (
       <FlatList
-        data={chatRoom?.Messages?.items}
+        data={messages}
         renderItem={renderMessage}
         inverted
         style={styles.list}

@@ -10,11 +10,15 @@ export const getCommonChatRoom = async (userid) => {
   );
   const myChatRooms = response?.data?.getUser?.ChatRooms?.items || [];
 
-  const commonChatRoom = myChatRooms.find((item) =>
-    item?.chatRoom?.users?.items?.some(
-      (userItem) => userid === userItem?.user?.id
-    )
-  );
+  const commonChatRoom = myChatRooms.find((chatRoomItem) => {
+    return (
+      chatRoomItem.chatRoom.users.items.length === 2 &&
+      chatRoomItem.chatRoom.users.items.some(
+        (userItem) => userItem.user.id === userid
+      )
+    );
+  });
+  console.log(commonChatRoom, "nirbhay");
 
-return commonChatRoom?.chatRoom;
+  return commonChatRoom?.chatRoom;
 };

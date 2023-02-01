@@ -16,5 +16,11 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolId": "string",
       "UserPoolName": "string"
     }
+  },
+  "storage": {
+    "s3flashappstoraged620b508": {
+      "BucketName": "string",
+      "Region": "string"
+    }
   }
 }

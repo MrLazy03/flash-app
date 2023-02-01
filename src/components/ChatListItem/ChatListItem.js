@@ -1,19 +1,21 @@
 import { Image, StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Auth } from "aws-amplify";
+import { Auth, graphqlOperation, API } from "aws-amplify";
 import { Title, SubText, Text } from "../../styledComponents/text";
 import { Container } from "./styles";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import avatar from "../../images/avatar.png";
+import { onUpdateChatRoom } from "../../graphql/subscriptions";
 
 dayjs.extend(relativeTime);
 
 const ChatListItem = (props) => {
-  const { chatRoom } = props;
+  const { chat } = props;
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
+  const [chatRoom, setChatRoom] = useState(chat);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -24,6 +26,22 @@ const ChatListItem = (props) => {
       setUser(userItem?.user);
     };
     fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const subscription = API.graphql(
+      graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chat.id } } })
+    ).subscribe({
+      next: ({ value }) => {
+        setChatRoom((cr) => ({
+          ...(cr || {}),
+          ...value.data.onUpdateChatRoom,
+        }));
+      },
+      error: (err) => console.log(err),
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const lastMessage = chatRoom?.LastMessage;

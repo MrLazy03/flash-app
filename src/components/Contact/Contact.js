@@ -53,7 +53,9 @@ const Contact = (porps) => {
         chatRoomId: commonChatRoom?.id,
         userName: user?.name,
       });
+      return;
     }
+
 
     // // create a chatroom if there is no chatroom
     const newChatRoomData = await API.graphql(
@@ -89,7 +91,6 @@ const Contact = (porps) => {
     } else {
       // handle error while creating chatroom
     }
-
   };
 
   return (

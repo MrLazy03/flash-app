@@ -31,9 +31,11 @@ const App = () => {
           name: authUser?.attributes?.name,
           status: "Hey, I am using Flash..",
         };
-        const newUserResponse = await API.graphql(
-          graphqlOperation(createUser, { input: newUser })
-        );
+        try {
+          const newUserResponse = await API.graphql(
+            graphqlOperation(createUser, { input: newUser })
+          );
+        } catch {}
       }
     };
     syncUser();
