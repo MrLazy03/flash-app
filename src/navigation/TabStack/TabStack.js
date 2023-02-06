@@ -23,7 +23,11 @@ const TabStack = () => {
         headerStyle: {
           backgroundColor: theme.colors.card,
         },
+        headerRightContainerStyle: {
+          paddingHorizontal: 15,
+        },
         headerTintColor: "white",
+        headerTitle: "Chats",
       }}
     >
       <Tab.Screen

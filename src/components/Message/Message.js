@@ -1,15 +1,22 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Auth } from "aws-amplify";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 const Message = (props) => {
   const { message } = props;
+  const [isMe, setIsMe] = useState(false);
+  
+  useEffect(() => {
+    const isMyMessage = async () => {
+      const authUser = await Auth.currentAuthenticatedUser();
+      setIsMe(message?.userID === authUser?.attributes?.sub);
+    };
+    isMyMessage();
+  }, []);
 
-  const isMyMessage = () => {
-    return message?.user?.id === "u1";
-  };
   const renderText = (text) => {
     return <Text style={styles.text}>{text}</Text>;
   };
@@ -23,8 +30,8 @@ const Message = (props) => {
       style={[
         styles.container,
         {
-          backgroundColor: isMyMessage() ? "#DCF8C5" : "white",
-          alignSelf: isMyMessage() ? "flex-end" : "flex-start",
+          backgroundColor: isMe ? "#DCF8C5" : "white",
+          alignSelf: isMe ? "flex-end" : "flex-start",
         },
       ]}
     >

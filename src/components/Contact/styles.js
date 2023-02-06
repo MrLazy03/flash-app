@@ -6,5 +6,5 @@ export const Container = styled.Pressable`
   margin: 3px 6px 3px 6px;
   padding: 8px;
   border-radius: 5px;
-  background-color: ${(props) =>  props.theme.colors.ChatListItemCard};
+  background-color: ${(props) => props.theme.colors.ChatListItemCard};
 `;

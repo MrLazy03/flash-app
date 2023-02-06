@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3flashappstoraged620b508",
+  "bucketName": "flashapp-storage-d620b508",
+  "policyUUID": "c16689d6",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}
