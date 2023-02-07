@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "styled-components/native";
 import { Provider } from "react-redux";
@@ -12,10 +11,10 @@ import theme from "./src/themes";
 import { store } from "./src/store";
 import { getUser } from "./src/graphql/queries";
 import { createUser } from "./src/graphql/mutations";
-
 Amplify.configure({ ...awsconfig, Analytics: { disabled: true } });
 
 const App = () => {
+  
   useEffect(() => {
     const syncUser = async () => {
       const authUser = await Auth.currentAuthenticatedUser({

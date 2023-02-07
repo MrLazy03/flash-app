@@ -1,5 +1,6 @@
 import { StyleSheet, View, Image } from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { Container } from "./styles";
 import { Title, SubText, Text } from "../../styledComponents/text";
@@ -10,6 +11,8 @@ import { getCommonChatRoom } from "../../utilities/chatRoomService";
 const Contact = (porps) => {
   const { user } = porps;
   const navigation = useNavigation();
+  const { authUser } = useSelector((state) => state.authUser);
+
 
   const renderProfileImage = () => {
     return (
@@ -73,7 +76,6 @@ const Contact = (porps) => {
       );
 
       // Add the Auth user to the chatroom
-      const authUser = await Auth.currentAuthenticatedUser();
       await API.graphql(
         graphqlOperation(createUserChatRoom, {
           input: {

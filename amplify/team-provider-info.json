@@ -17,6 +17,9 @@
       },
       "api": {
         "FlashApp": {}
+      },
+      "storage": {
+        "s3flashappstoraged620b508": {}
       }
     }
   },

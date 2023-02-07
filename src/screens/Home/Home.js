@@ -1,11 +1,13 @@
 import { FlatList, ScrollView, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import ChatListItem from "../../components/ChatListItem";
 import { Entypo } from "@expo/vector-icons";
 import { listUserChatRooms } from "../../graphql/customQuries";
 
 const Home = (props) => {
+  const { authUser } = useSelector((state) => state.authUser);
   const { navigation } = props;
   const [chatRooms, setChatRooms] = useState([]);
 
@@ -24,8 +26,6 @@ const Home = (props) => {
 
   useEffect(() => {
     const fetchChatRooms = async () => {
-      const authUser = await Auth.currentAuthenticatedUser();
-
       const responseChatRooms = await API.graphql(
         graphqlOperation(listUserChatRooms, { id: authUser?.attributes?.sub })
       );
@@ -39,7 +39,7 @@ const Home = (props) => {
     };
 
     fetchChatRooms();
-  }, []);
+  }, [authUser]);
 
   const openContactList = () => {
     navigation.navigate("Contacts");
