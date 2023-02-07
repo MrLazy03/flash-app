@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 import Contact from "../../components/Contact";
 import { listUsers } from "../../graphql/queries";
-import chats from "../../DummyData/chat";
 
 const ContactsScreen = () => {
   const [contacts, setContacts] = useState([]);

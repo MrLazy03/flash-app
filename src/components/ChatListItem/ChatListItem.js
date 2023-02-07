@@ -1,5 +1,6 @@
 import { Image, StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { Auth, graphqlOperation, API } from "aws-amplify";
 import { Title, SubText, Text } from "../../styledComponents/text";
@@ -17,9 +18,10 @@ const ChatListItem = (props) => {
   const [user, setUser] = useState(null);
   const [chatRoom, setChatRoom] = useState(chat);
 
+  const { authUser } = useSelector((state) => state.authUser);
+
   useEffect(() => {
     const fetchUser = async () => {
-      const authUser = await Auth.currentAuthenticatedUser();
       const userItem = chatRoom?.users?.items.find(
         (item) => item?.user?.id !== authUser?.attributes?.sub
       );

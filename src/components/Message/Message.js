@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Auth } from "aws-amplify";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -8,10 +9,10 @@ dayjs.extend(relativeTime);
 const Message = (props) => {
   const { message } = props;
   const [isMe, setIsMe] = useState(false);
-  
+  const { authUser } = useSelector((state) => state.authUser);
+
   useEffect(() => {
     const isMyMessage = async () => {
-      const authUser = await Auth.currentAuthenticatedUser();
       setIsMe(message?.userID === authUser?.attributes?.sub);
     };
     isMyMessage();

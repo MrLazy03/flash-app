@@ -1,5 +1,6 @@
 import { StyleSheet, Text, Image, View, TextInput } from "react-native";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { createMessage, updateChatRoom } from "../../graphql/mutations";
@@ -8,6 +9,9 @@ const InputBox = (props) => {
   const { chatRoom } = props;
   const [newMessage, setNewMessage] = useState("");
   const [image, setImage] = useState(null);
+
+  const { authUser } = useSelector((state) => state.authUser);
+
 
   const showActions = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -20,7 +24,6 @@ const InputBox = (props) => {
 
   const handleSendMessage = async () => {
     if (!newMessage) return null;
-    const authUser = await Auth.currentAuthenticatedUser();
 
     const message = {
       chatroomID: chatRoom?.id,

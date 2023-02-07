@@ -4,7 +4,6 @@ import { API, graphqlOperation, Auth } from "aws-amplify";
 import Message from "../../components/Message";
 import InputBox from "../../components/InputBox/InputBox";
 import backgroundImage from "../../../assets/BG.png";
-import messages from "../../DummyData/message.json";
 import { Container } from "../../styledComponents/Container";
 import { useNavigation } from "@react-navigation/native";
 import { getChatRoom, listMessagesByChatRoom } from "../../graphql/queries";

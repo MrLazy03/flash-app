@@ -1,9 +1,9 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import counterReducer from "./modules/counter/counterSlice";
-import { movieReducer } from "./modules/movies/movieSlice";
+import { authUserReducer } from "./modules/authUser/authUserSlice";
 const rootReducer = combineReducers({
   counter: counterReducer,
-  movies2: movieReducer,
+  authUser: authUserReducer,
 });
 
 export default rootReducer;
